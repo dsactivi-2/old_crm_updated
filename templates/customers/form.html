@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - CRM{% endblock %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="post" class="customer-form">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+        {% for error in form.name.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email(class="form-control") }}
+        {% for error in form.email.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.phone.label }}
+        {{ form.phone(class="form-control") }}
+        {% for error in form.phone.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.company.label }}
+        {{ form.company(class="form-control") }}
+        {% for error in form.company.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.status.label }}
+        {{ form.status(class="form-control") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.notes.label }}
+        {{ form.notes(class="form-control", rows=4) }}
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{{ url_for('customer_list') }}" class="btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}

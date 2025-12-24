@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CRM{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>Total Customers</h3>
+        <p class="stat-number">{{ stats.total }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Active</h3>
+        <p class="stat-number">{{ stats.active }}</p>
+    </div>
+    <div class="stat-card">
+        <h3>Leads</h3>
+        <p class="stat-number">{{ stats.leads }}</p>
+    </div>
+</div>
+
+<section class="recent-activity">
+    <h2>Recent Interactions</h2>
+    {% if stats.recent_interactions %}
+        <ul class="interaction-list">
+            {% for interaction in stats.recent_interactions %}
+                <li>
+                    <span class="interaction-type type-{{ interaction.type }}">{{ interaction.type }}</span>
+                    <a href="{{ url_for('customer_detail', id=interaction.customer_id) }}">
+                        {{ interaction.subject }}
+                    </a>
+                    <span class="interaction-date">{{ interaction.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No recent interactions.</p>
+    {% endif %}
+</section>
+{% endblock %}

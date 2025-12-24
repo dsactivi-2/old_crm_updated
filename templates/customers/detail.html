@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ customer.name }} - CRM{% endblock %}
+
+{% block content %}
+<div class="customer-header">
+    <h1>{{ customer.name }}</h1>
+    <span class="status status-{{ customer.status }}">{{ customer.status }}</span>
+</div>
+
+<div class="customer-details">
+    <dl>
+        <dt>Email</dt>
+        <dd><a href="mailto:{{ customer.email }}">{{ customer.email }}</a></dd>
+
+        <dt>Phone</dt>
+        <dd>{{ customer.phone or '-' }}</dd>
+
+        <dt>Company</dt>
+        <dd>{{ customer.company or '-' }}</dd>
+
+        <dt>Created</dt>
+        <dd>{{ customer.created_at.strftime('%Y-%m-%d %H:%M') }}</dd>
+
+        {% if customer.notes %}
+            <dt>Notes</dt>
+            <dd>{{ customer.notes }}</dd>
+        {% endif %}
+    </dl>
+</div>
+
+<div class="actions">
+    <a href="{{ url_for('customer_edit', id=customer.id) }}" class="btn">Edit</a>
+    <form action="{{ url_for('customer_delete', id=customer.id) }}" method="post" class="inline-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this customer?')">Delete</button>
+    </form>
+</div>
+
+<section class="interactions">
+    <h2>Interactions</h2>
+
+    <form action="{{ url_for('add_interaction', id=customer.id) }}" method="post" class="interaction-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <select name="type">
+            <option value="call">Phone Call</option>
+            <option value="email">Email</option>
+            <option value="meeting">Meeting</option>
+            <option value="note">Note</option>
+        </select>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <button type="submit" class="btn btn-primary">Log Interaction</button>
+    </form>
+
+    {% if interactions %}
+        <ul class="interaction-list">
+            {% for interaction in interactions %}
+                <li>
+                    <span class="interaction-type type-{{ interaction.type }}">{{ interaction.type }}</span>
+                    <strong>{{ interaction.subject }}</strong>
+                    {% if interaction.description %}
+                        <p>{{ interaction.description }}</p>
+                    {% endif %}
+                    <span class="interaction-date">{{ interaction.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No interactions logged.</p>
+    {% endif %}
+</section>
+{% endblock %}

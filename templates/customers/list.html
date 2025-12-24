@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Customers - CRM{% endblock %}
+
+{% block content %}
+<h1>Customers</h1>
+
+<form class="search-form" method="get">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search...">
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="active" {% if status == 'active' %}selected{% endif %}>Active</option>
+        <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive</option>
+        <option value="lead" {% if status == 'lead' %}selected{% endif %}>Lead</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+{% if customers %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td><a href="{{ url_for('customer_detail', id=customer.id) }}">{{ customer.name }}</a></td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.company or '-' }}</td>
+                    <td><span class="status status-{{ customer.status }}">{{ customer.status }}</span></td>
+                    <td>
+                        <a href="{{ url_for('customer_edit', id=customer.id) }}" class="btn btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if pagination.pages > 1 %}
+        <nav class="pagination">
+            {% if pagination.has_prev %}
+                <a href="{{ url_for('customer_list', page=pagination.prev_num, search=search, status=status) }}">Previous</a>
+            {% endif %}
+            <span>Page {{ pagination.page }} of {{ pagination.pages }}</span>
+            {% if pagination.has_next %}
+                <a href="{{ url_for('customer_list', page=pagination.next_num, search=search, status=status) }}">Next</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% else %}
+    <p>No customers found.</p>
+{% endif %}
+
+<a href="{{ url_for('customer_create') }}" class="btn btn-primary">Add Customer</a>
+{% endblock %}
