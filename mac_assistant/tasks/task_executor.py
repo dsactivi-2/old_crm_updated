@@ -91,7 +91,7 @@ class TaskExecutor:
                 body=params.get('body', params.get('message', ''))
             )
 
-        elif action == 'get_unread_emails':
+        elif action == 'get_unread_emails' or action == 'read_emails':
             limit = int(params.get('limit', 10))
             return plugin.get_unread_emails(limit)
 

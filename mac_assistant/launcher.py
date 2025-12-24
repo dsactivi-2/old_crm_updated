@@ -8,11 +8,19 @@ import os
 import sys
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add parent directory to path (only if not in py2app bundle)
+if not getattr(sys, 'frozen', False):
+    parent_dir = str(Path(__file__).parent.parent)
+    current_dir = str(Path(__file__).parent)
+    sys.path.insert(0, parent_dir)
+    sys.path.insert(0, current_dir)
+else:
+    # In py2app bundle, add current directory
+    sys.path.insert(0, str(Path(__file__).parent))
 
-from mac_assistant.core_v2 import MacAssistantCore
-from mac_assistant.ui.dashboard import DashboardGUI
+# Import without mac_assistant prefix
+from core_v2 import MacAssistantCore
+from ui.dashboard import DashboardGUI
 
 
 def main():

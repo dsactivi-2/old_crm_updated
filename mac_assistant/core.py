@@ -9,9 +9,9 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 from pathlib import Path
 
-from mac_assistant.database.activity_tracker import ActivityTracker
-from mac_assistant.scripts.applescript_bridge import AppleScriptBridge
-from mac_assistant.utils.ai_assistant import AIAssistant, AutomationEngine
+from database.activity_tracker import ActivityTracker
+from scripts.applescript_bridge import AppleScriptBridge
+from utils.ai_assistant import AIAssistant, AutomationEngine
 
 
 class MacAssistantCore:

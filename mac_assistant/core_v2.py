@@ -8,17 +8,17 @@ import re
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 
-from mac_assistant.database.activity_tracker import ActivityTracker
-from mac_assistant.utils.ai_assistant import AIAssistant, AutomationEngine
-from mac_assistant.plugins.plugin_manager import PluginManager
-from mac_assistant.tasks.task_executor import TaskExecutor
+from database.activity_tracker import ActivityTracker
+from utils.ai_assistant import AIAssistant, AutomationEngine
+from plugins.plugin_manager import PluginManager
+from tasks.task_executor import TaskExecutor
 
 # Import all plugins
-from mac_assistant.plugins.mail_plugin import MailAppPlugin
-from mac_assistant.plugins.slack_plugin import SlackPlugin
-from mac_assistant.plugins.viber_plugin import ViberPlugin
-from mac_assistant.plugins.telegram_plugin import TelegramPlugin
-from mac_assistant.plugins.photos_plugin import PhotosPlugin
+from plugins.mail_plugin import MailAppPlugin
+from plugins.slack_plugin import SlackPlugin
+from plugins.viber_plugin import ViberPlugin
+from plugins.telegram_plugin import TelegramPlugin
+from plugins.photos_plugin import PhotosPlugin
 
 
 class MacAssistantCore:

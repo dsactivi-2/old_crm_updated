@@ -157,7 +157,7 @@ class YourAppPlugin(MessagingPlugin):  # Change base class as needed
 # After creating your plugin, register it in core_v2.py:
 #
 # 1. Import your plugin:
-#    from mac_assistant.plugins.your_app_plugin import YourAppPlugin
+#    from plugins.your_app_plugin import YourAppPlugin
 #
 # 2. Register in _register_plugins() method:
 #    self.plugin_manager.register(YourAppPlugin())

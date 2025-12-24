@@ -11,9 +11,9 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from mac_assistant.core_v2 import MacAssistantCore
-from mac_assistant.ui.dashboard import DashboardGUI  # New modern dashboard
-# from mac_assistant.ui.main_window import MacAssistantGUI  # Legacy GUI
+from core_v2 import MacAssistantCore
+from ui.dashboard import DashboardGUI  # New modern dashboard
+# from ui.main_window import MacAssistantGUI  # Legacy GUI
 
 
 def main():

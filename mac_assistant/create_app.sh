@@ -28,7 +28,17 @@ mkdir -p "$BUNDLE_DIR/Contents/Frameworks"
 
 # Copy Python files
 echo "Copying application files..."
-cp -r ../mac_assistant "$BUNDLE_DIR/Contents/Resources/"
+mkdir -p "$BUNDLE_DIR/Contents/Resources/mac_assistant"
+cp -r ./*.py "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./plugins "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./tasks "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./database "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./utils "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./ui "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./scripts "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./autonomous "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./voice "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
+cp -r ./venv "$BUNDLE_DIR/Contents/Resources/mac_assistant/" 2>/dev/null || true
 
 # Create launcher script
 echo "Creating launcher script..."
@@ -42,9 +52,9 @@ RESOURCES_DIR="$DIR/../Resources"
 # Add to Python path
 export PYTHONPATH="$RESOURCES_DIR:$PYTHONPATH"
 
-# Run the app
+# Run the app with menu bar launcher
 cd "$RESOURCES_DIR/mac_assistant"
-python3 launcher.py
+python3 launcher_menubar.py
 EOF
 
 chmod +x "$BUNDLE_DIR/Contents/MacOS/mac_assistant"
@@ -76,6 +86,8 @@ cat > "$BUNDLE_DIR/Contents/Info.plist" << EOF
     <string>2.0.0</string>
     <key>LSMinimumSystemVersion</key>
     <string>10.14</string>
+    <key>LSUIElement</key>
+    <true/>
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSAppleEventsUsageDescription</key>
