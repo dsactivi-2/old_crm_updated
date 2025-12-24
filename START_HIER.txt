@@ -1,0 +1,23 @@
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║        MAC REMOTE ASSISTANT v3.0 🤖                      ║
+║        Mit Dashboard & Native macOS App                  ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+🎨 NEU: MODERNES DASHBOARD - Kein Terminal mehr nötig!
+
+SCHNELLSTART:
+1. unzip mac_assistant_v3.0_complete.zip
+2. cd mac_assistant && ./setup.sh
+3. python3 main.py
+
+→ Dashboard öffnet sich!
+→ API Key in Einstellungen eingeben
+→ Fertig!
+
+ODER ALS NATIVE APP:
+./create_app.sh
+→ Doppelklick auf "Mac Remote Assistant.app"
+
+Siehe DASHBOARD_FEATURES.md für alle Features!
