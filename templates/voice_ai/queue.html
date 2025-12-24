@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Call Queue{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Anruf-Warteschlange</h1>
+</div>
+
+<div class="queue-grid">
+    <!-- Pending -->
+    <div class="card">
+        <h3>Wartend ({{ pending|length }})</h3>
+        {% if pending %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Priorität</th>
+                    <th>Kunde</th>
+                    <th>Agent</th>
+                    <th>Versuche</th>
+                    <th>Erstellt</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in pending %}
+                <tr>
+                    <td>
+                        <span class="priority priority-{{ item.priority }}">
+                            {{ item.priority }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if item.customer %}
+                        <a href="{{ url_for('customer_detail', id=item.customer_id) }}">
+                            {{ item.customer.name }}
+                        </a>
+                        <br><small>{{ item.customer.phone }}</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.agent %}
+                        {{ item.agent.name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item.attempts }}/{{ item.max_attempts }}</td>
+                    <td>{{ item.created_at.strftime('%d.%m. %H:%M') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('voice_ai.start_customer_call', id=item.customer_id) }}" style="display:inline;">
+                            <input type="hidden" name="agent_id" value="{{ item.agent_id }}">
+                            <button type="submit" class="btn btn-sm btn-primary">Jetzt anrufen</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-state">Keine wartenden Anrufe.</p>
+        {% endif %}
+    </div>
+
+    <!-- Scheduled -->
+    <div class="card">
+        <h3>Geplant ({{ scheduled|length }})</h3>
+        {% if scheduled %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Geplant für</th>
+                    <th>Kunde</th>
+                    <th>Agent</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in scheduled %}
+                <tr>
+                    <td>
+                        {{ item.scheduled_for.strftime('%d.%m.%Y %H:%M') if item.scheduled_for else '-' }}
+                    </td>
+                    <td>
+                        {% if item.customer %}
+                        <a href="{{ url_for('customer_detail', id=item.customer_id) }}">
+                            {{ item.customer.name }}
+                        </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.agent %}
+                        {{ item.agent.name }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary">Abbrechen</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-state">Keine geplanten Anrufe.</p>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.queue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.priority {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+.priority-1, .priority-2 {
+    background: #EF4444;
+    color: white;
+}
+.priority-3, .priority-4 {
+    background: #F59E0B;
+    color: white;
+}
+.priority-5, .priority-6 {
+    background: #3B82F6;
+    color: white;
+}
+.priority-7, .priority-8, .priority-9, .priority-10 {
+    background: #6B7280;
+    color: white;
+}
+</style>
+{% endblock %}

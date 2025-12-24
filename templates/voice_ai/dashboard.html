@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Voice AI Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Voice AI Sales Agent</h1>
+    <div class="header-actions">
+        <a href="{{ url_for('voice_ai.agent_create') }}" class="btn btn-primary">+ Neuer Agent</a>
+    </div>
+</div>
+
+<!-- Statistiken -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.active_agents }}</div>
+        <div class="stat-label">Aktive Agents</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.calls_today }}</div>
+        <div class="stat-label">Anrufe heute</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ "%.0f"|format(stats.avg_duration) }}s</div>
+        <div class="stat-label">Durchschn. Dauer</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.queue_pending }}</div>
+        <div class="stat-label">In Warteschlange</div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Aktive Agents -->
+    <div class="card">
+        <h3>Aktive Agents</h3>
+        {% if agents %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Provider</th>
+                    <th>Sprache</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for agent in agents %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('voice_ai.agent_detail', id=agent.id) }}">
+                            {{ agent.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <span class="badge badge-{{ agent.provider }}">
+                            {{ agent.provider|upper }}
+                        </span>
+                    </td>
+                    <td>{{ agent.primary_language|upper }}</td>
+                    <td>
+                        {% if agent.is_active %}
+                        <span class="badge badge-active">Aktiv</span>
+                        {% else %}
+                        <span class="badge badge-inactive">Inaktiv</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('voice_ai.agent_detail', id=agent.id) }}" class="btn btn-sm">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="empty-state">Noch keine Agents erstellt.</p>
+        <a href="{{ url_for('voice_ai.agent_create') }}" class="btn btn-primary">Ersten Agent erstellen</a>
+        {% endif %}
+    </div>
+
+    <!-- Letzte Anrufe -->
+    <div class="card">
+        <h3>Letzte Anrufe</h3>
+        {% if recent_calls %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Zeit</th>
+                    <th>Kunde</th>
+                    <th>Dauer</th>
+                    <th>Status</th>
+                    <th>Sentiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for call in recent_calls %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('voice_ai.call_detail', id=call.id) }}">
+                            {{ call.created_at.strftime('%d.%m. %H:%M') }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if call.customer %}
+                        <a href="{{ url_for('customer_detail', id=call.customer_id) }}">
+                            {{ call.customer.name }}
+                        </a>
+                        {% else %}
+                        {{ call.phone_to }}
+                        {% endif %}
+                    </td>
+                    <td>{{ call.duration_seconds or 0 }}s</td>
+                    <td>
+                        <span class="badge badge-{{ call.status }}">
+                            {{ call.status }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if call.sentiment %}
+                        <span class="badge badge-sentiment-{{ call.sentiment }}">
+                            {{ call.sentiment }}
+                        </span>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('voice_ai.call_list') }}" class="btn btn-sm">Alle anzeigen</a>
+        {% else %}
+        <p class="empty-state">Noch keine Anrufe.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+    <h3>Schnellaktionen</h3>
+    <div class="quick-actions">
+        <a href="{{ url_for('voice_ai.queue_list') }}" class="btn">
+            Warteschlange verwalten
+        </a>
+        <a href="{{ url_for('voice_ai.agent_list') }}" class="btn">
+            Alle Agents
+        </a>
+        <a href="{{ url_for('customer_list') }}?status=lead" class="btn">
+            Leads anrufen
+        </a>
+    </div>
+</div>
+
+<style>
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.stat-label {
+    color: #666;
+    margin-top: 0.5rem;
+}
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.badge-vapi { background: #4F46E5; color: white; }
+.badge-retell { background: #059669; color: white; }
+.badge-bland { background: #DC2626; color: white; }
+.badge-sentiment-positive { background: #10B981; color: white; }
+.badge-sentiment-neutral { background: #6B7280; color: white; }
+.badge-sentiment-negative { background: #EF4444; color: white; }
+.quick-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.empty-state {
+    color: #666;
+    font-style: italic;
+    margin: 1rem 0;
+}
+</style>
+{% endblock %}

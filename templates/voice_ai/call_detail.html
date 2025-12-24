@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Anruf Details{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Anruf #{{ call.id }}</h1>
+    <div class="header-actions">
+        <a href="{{ url_for('voice_ai.call_list') }}" class="btn btn-secondary">Zurück</a>
+    </div>
+</div>
+
+<div class="call-detail-grid">
+    <!-- Übersicht -->
+    <div class="card">
+        <h3>Übersicht</h3>
+        <table class="detail-table">
+            <tr>
+                <th>Datum/Zeit</th>
+                <td>{{ call.created_at.strftime('%d.%m.%Y %H:%M:%S') }}</td>
+            </tr>
+            <tr>
+                <th>Agent</th>
+                <td>
+                    {% if call.agent %}
+                    <a href="{{ url_for('voice_ai.agent_detail', id=call.agent_id) }}">
+                        {{ call.agent.name }}
+                    </a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Kunde</th>
+                <td>
+                    {% if call.customer %}
+                    <a href="{{ url_for('customer_detail', id=call.customer_id) }}">
+                        {{ call.customer.name }}
+                    </a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Richtung</th>
+                <td>
+                    <span class="badge badge-{{ call.direction }}">
+                        {{ 'Ausgehend' if call.direction == 'outbound' else 'Eingehend' }}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>Von</th>
+                <td>{{ call.phone_from or '-' }}</td>
+            </tr>
+            <tr>
+                <th>Nach</th>
+                <td>{{ call.phone_to or '-' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>
+                    <span class="badge badge-status-{{ call.status }}">{{ call.status }}</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Dauer</th>
+                <td>{{ call.duration_seconds or 0 }} Sekunden</td>
+            </tr>
+            <tr>
+                <th>Kosten</th>
+                <td>
+                    {% if call.cost_amount %}
+                    {{ "%.4f"|format(call.cost_amount) }} {{ call.cost_currency }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Analyse -->
+    <div class="card">
+        <h3>AI Analyse</h3>
+        <table class="detail-table">
+            <tr>
+                <th>Sprache erkannt</th>
+                <td>{{ call.detected_language|upper if call.detected_language else '-' }}</td>
+            </tr>
+            <tr>
+                <th>Sentiment</th>
+                <td>
+                    {% if call.sentiment %}
+                    <span class="badge badge-sentiment-{{ call.sentiment }}">
+                        {{ call.sentiment }}
+                    </span>
+                    {% if call.sentiment_score %}
+                    ({{ "%.2f"|format(call.sentiment_score) }})
+                    {% endif %}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Ergebnis</th>
+                <td>{{ call.outcome or '-' }}</td>
+            </tr>
+            <tr>
+                <th>Nächste Aktion</th>
+                <td>{{ call.next_action or '-' }}</td>
+            </tr>
+            <tr>
+                <th>Termin</th>
+                <td>
+                    {% if call.appointment_date %}
+                    {{ call.appointment_date.strftime('%d.%m.%Y %H:%M') }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Lead Score</th>
+                <td>
+                    {% if call.lead_score_after %}
+                    {{ call.lead_score_before or '?' }} → {{ call.lead_score_after }}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Zusammenfassung -->
+{% if call.summary %}
+<div class="card">
+    <h3>Zusammenfassung</h3>
+    <div class="summary-box">
+        {{ call.summary }}
+    </div>
+</div>
+{% endif %}
+
+<!-- Transkript -->
+<div class="card">
+    <h3>Transkript</h3>
+    {% if call.transcript %}
+    <div class="transcript-box">
+        {{ call.transcript }}
+    </div>
+    {% else %}
+    <p class="empty-state">Kein Transkript verfügbar.</p>
+    {% endif %}
+</div>
+
+<!-- Recording -->
+{% if call.recording_url %}
+<div class="card">
+    <h3>Aufnahme</h3>
+    <audio controls class="audio-player">
+        <source src="{{ call.recording_url }}" type="audio/mpeg">
+        Ihr Browser unterstützt keine Audio-Wiedergabe.
+    </audio>
+    <p>
+        <a href="{{ call.recording_url }}" target="_blank" class="btn btn-sm">
+            Aufnahme herunterladen
+        </a>
+    </p>
+</div>
+{% endif %}
+
+<!-- Technische Details -->
+<div class="card">
+    <h3>Technische Details</h3>
+    <table class="detail-table">
+        <tr>
+            <th>Provider Call ID</th>
+            <td><code>{{ call.provider_call_id or '-' }}</code></td>
+        </tr>
+        <tr>
+            <th>Session ID</th>
+            <td><code>{{ call.provider_session_id or '-' }}</code></td>
+        </tr>
+        <tr>
+            <th>Gestartet</th>
+            <td>{{ call.started_at.strftime('%d.%m.%Y %H:%M:%S') if call.started_at else '-' }}</td>
+        </tr>
+        <tr>
+            <th>Beendet</th>
+            <td>{{ call.ended_at.strftime('%d.%m.%Y %H:%M:%S') if call.ended_at else '-' }}</td>
+        </tr>
+    </table>
+</div>
+
+<style>
+.call-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.detail-table th {
+    text-align: left;
+    padding: 0.5rem;
+    color: #666;
+    width: 40%;
+}
+.detail-table td {
+    padding: 0.5rem;
+}
+.summary-box {
+    background: #f0f9ff;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid var(--primary-color);
+}
+.transcript-box {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.audio-player {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+code {
+    background: #e9ecef;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+.badge-outbound { background: #3B82F6; color: white; }
+.badge-inbound { background: #8B5CF6; color: white; }
+.badge-status-completed { background: #10B981; color: white; }
+.badge-status-failed { background: #EF4444; color: white; }
+.badge-sentiment-positive { background: #10B981; color: white; }
+.badge-sentiment-neutral { background: #6B7280; color: white; }
+.badge-sentiment-negative { background: #EF4444; color: white; }
+</style>
+{% endblock %}

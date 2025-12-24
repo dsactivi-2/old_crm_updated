@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Agent: {{ agent.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ agent.name }}</h1>
+    <div class="header-actions">
+        <a href="{{ url_for('voice_ai.agent_edit', id=agent.id) }}" class="btn">Bearbeiten</a>
+        <a href="{{ url_for('voice_ai.dashboard') }}" class="btn btn-secondary">Zurück</a>
+    </div>
+</div>
+
+<!-- Statistiken -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.total_calls }}</div>
+        <div class="stat-label">Anrufe gesamt</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ "%.0f"|format(stats.avg_duration) }}s</div>
+        <div class="stat-label">Durchschn. Dauer</div>
+    </div>
+    <div class="stat-card positive">
+        <div class="stat-value">{{ stats.positive_calls }}</div>
+        <div class="stat-label">Positive Gespräche</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ stats.appointments }}</div>
+        <div class="stat-label">Termine</div>
+    </div>
+</div>
+
+<div class="detail-grid">
+    <!-- Konfiguration -->
+    <div class="card">
+        <h3>Konfiguration</h3>
+        <table class="detail-table">
+            <tr>
+                <th>Provider</th>
+                <td><span class="badge badge-{{ agent.provider }}">{{ agent.provider|upper }}</span></td>
+            </tr>
+            <tr>
+                <th>Hauptsprache</th>
+                <td>
+                    {% if agent.primary_language == 'de' %}Deutsch
+                    {% elif agent.primary_language == 'bs' %}Bosnisch
+                    {% elif agent.primary_language == 'sr' %}Serbisch
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Text-to-Speech</th>
+                <td>{{ agent.tts_provider }} {% if agent.tts_voice_name %}({{ agent.tts_voice_name }}){% endif %}</td>
+            </tr>
+            <tr>
+                <th>Speech-to-Text</th>
+                <td>{{ agent.stt_provider }}</td>
+            </tr>
+            <tr>
+                <th>LLM</th>
+                <td>{{ agent.llm_provider }} / {{ agent.llm_model }}</td>
+            </tr>
+            <tr>
+                <th>Telefonie</th>
+                <td>{{ agent.telephony_provider }} - {{ agent.phone_number or 'Nicht konfiguriert' }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>
+                    {% if agent.is_active %}
+                    <span class="badge badge-active">Aktiv</span>
+                    {% else %}
+                    <span class="badge badge-inactive">Inaktiv</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Erstellt</th>
+                <td>{{ agent.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- System Prompt -->
+    <div class="card">
+        <h3>Sales Script</h3>
+        <div class="prompt-display">
+            <pre>{{ agent.system_prompt }}</pre>
+        </div>
+    </div>
+</div>
+
+<!-- Letzte Anrufe -->
+<div class="card">
+    <h3>Letzte Anrufe</h3>
+    {% if recent_calls %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Datum/Zeit</th>
+                <th>Kunde</th>
+                <th>Richtung</th>
+                <th>Dauer</th>
+                <th>Status</th>
+                <th>Sentiment</th>
+                <th>Outcome</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for call in recent_calls %}
+            <tr>
+                <td>{{ call.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td>
+                    {% if call.customer %}
+                    <a href="{{ url_for('customer_detail', id=call.customer_id) }}">
+                        {{ call.customer.name }}
+                    </a>
+                    {% else %}
+                    {{ call.phone_to }}
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="badge badge-{{ call.direction }}">
+                        {{ 'Ausgehend' if call.direction == 'outbound' else 'Eingehend' }}
+                    </span>
+                </td>
+                <td>{{ call.duration_seconds or 0 }}s</td>
+                <td>
+                    <span class="badge badge-status-{{ call.status }}">
+                        {{ call.status }}
+                    </span>
+                </td>
+                <td>
+                    {% if call.sentiment %}
+                    <span class="badge badge-sentiment-{{ call.sentiment }}">
+                        {{ call.sentiment }}
+                    </span>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td>{{ call.outcome or '-' }}</td>
+                <td>
+                    <a href="{{ url_for('voice_ai.call_detail', id=call.id) }}" class="btn btn-sm">
+                        Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Noch keine Anrufe mit diesem Agent.</p>
+    {% endif %}
+</div>
+
+<!-- API Info -->
+<div class="card">
+    <h3>API Integration</h3>
+    <div class="api-info">
+        <p><strong>Webhook URL:</strong></p>
+        <code>{{ request.url_root }}api/voice/webhooks/{{ agent.provider }}</code>
+
+        <p><strong>Agent ID:</strong> <code>{{ agent.id }}</code></p>
+        <p><strong>Provider Agent ID:</strong> <code>{{ agent.agent_id or 'Nicht registriert' }}</code></p>
+
+        <p><strong>Anruf starten (API):</strong></p>
+        <pre>POST /api/voice/calls/start
+{
+    "agent_id": {{ agent.id }},
+    "customer_id": &lt;customer_id&gt;
+}</pre>
+    </div>
+</div>
+
+<style>
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.stat-card.positive {
+    border-left: 4px solid #10B981;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.detail-table th {
+    text-align: left;
+    padding: 0.5rem;
+    color: #666;
+    width: 40%;
+}
+.detail-table td {
+    padding: 0.5rem;
+}
+.prompt-display {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.prompt-display pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+}
+.api-info code, .api-info pre {
+    background: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 4px;
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+}
+.badge-outbound { background: #3B82F6; color: white; }
+.badge-inbound { background: #8B5CF6; color: white; }
+.badge-status-completed { background: #10B981; color: white; }
+.badge-status-failed { background: #EF4444; color: white; }
+.badge-status-in_progress { background: #F59E0B; color: white; }
+.badge-sentiment-positive { background: #10B981; color: white; }
+.badge-sentiment-neutral { background: #6B7280; color: white; }
+.badge-sentiment-negative { background: #EF4444; color: white; }
+</style>
+{% endblock %}

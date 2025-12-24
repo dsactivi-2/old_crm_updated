@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Anrufe{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Alle Anrufe</h1>
+</div>
+
+<!-- Filter -->
+<div class="filter-bar">
+    <form method="GET" class="filter-form">
+        <select name="status" class="form-control" onchange="this.form.submit()">
+            <option value="">Alle Status</option>
+            <option value="completed" {% if status == 'completed' %}selected{% endif %}>Abgeschlossen</option>
+            <option value="in_progress" {% if status == 'in_progress' %}selected{% endif %}>Läuft</option>
+            <option value="failed" {% if status == 'failed' %}selected{% endif %}>Fehlgeschlagen</option>
+            <option value="no_answer" {% if status == 'no_answer' %}selected{% endif %}>Keine Antwort</option>
+        </select>
+    </form>
+</div>
+
+{% if calls %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum/Zeit</th>
+            <th>Agent</th>
+            <th>Kunde</th>
+            <th>Richtung</th>
+            <th>Dauer</th>
+            <th>Status</th>
+            <th>Sentiment</th>
+            <th>Kosten</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for call in calls %}
+        <tr>
+            <td>{{ call.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+            <td>
+                {% if call.agent %}
+                <a href="{{ url_for('voice_ai.agent_detail', id=call.agent_id) }}">
+                    {{ call.agent.name }}
+                </a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+            <td>
+                {% if call.customer %}
+                <a href="{{ url_for('customer_detail', id=call.customer_id) }}">
+                    {{ call.customer.name }}
+                </a>
+                {% else %}
+                {{ call.phone_to }}
+                {% endif %}
+            </td>
+            <td>
+                <span class="badge badge-{{ call.direction }}">
+                    {{ 'OUT' if call.direction == 'outbound' else 'IN' }}
+                </span>
+            </td>
+            <td>{{ call.duration_seconds or 0 }}s</td>
+            <td>
+                <span class="badge badge-status-{{ call.status }}">
+                    {{ call.status }}
+                </span>
+            </td>
+            <td>
+                {% if call.sentiment %}
+                <span class="badge badge-sentiment-{{ call.sentiment }}">
+                    {{ call.sentiment }}
+                </span>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+            <td>
+                {% if call.cost_amount %}
+                {{ "%.2f"|format(call.cost_amount) }} {{ call.cost_currency }}
+                {% else %}
+                -
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('voice_ai.call_detail', id=call.id) }}" class="btn btn-sm">
+                    Details
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination -->
+{% if pagination.pages > 1 %}
+<div class="pagination">
+    {% if pagination.has_prev %}
+    <a href="{{ url_for('voice_ai.call_list', page=pagination.prev_num, status=status) }}" class="btn btn-sm">
+        Zurück
+    </a>
+    {% endif %}
+
+    <span class="page-info">
+        Seite {{ pagination.page }} von {{ pagination.pages }}
+    </span>
+
+    {% if pagination.has_next %}
+    <a href="{{ url_for('voice_ai.call_list', page=pagination.next_num, status=status) }}" class="btn btn-sm">
+        Weiter
+    </a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<div class="empty-state">
+    <p>Keine Anrufe gefunden.</p>
+</div>
+{% endif %}
+
+<style>
+.filter-bar {
+    margin-bottom: 1.5rem;
+}
+.filter-form {
+    display: flex;
+    gap: 1rem;
+}
+.filter-form .form-control {
+    width: auto;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.badge-outbound { background: #3B82F6; color: white; }
+.badge-inbound { background: #8B5CF6; color: white; }
+.badge-status-completed { background: #10B981; color: white; }
+.badge-status-failed { background: #EF4444; color: white; }
+.badge-status-in_progress { background: #F59E0B; color: white; }
+.badge-status-ringing { background: #3B82F6; color: white; }
+.badge-status-no_answer { background: #6B7280; color: white; }
+.badge-sentiment-positive { background: #10B981; color: white; }
+.badge-sentiment-neutral { background: #6B7280; color: white; }
+.badge-sentiment-negative { background: #EF4444; color: white; }
+</style>
+{% endblock %}

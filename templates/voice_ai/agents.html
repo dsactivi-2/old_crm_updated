@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Voice Agents{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Voice AI Agents</h1>
+    <div class="header-actions">
+        <a href="{{ url_for('voice_ai.agent_create') }}" class="btn btn-primary">+ Neuer Agent</a>
+    </div>
+</div>
+
+{% if agents %}
+<div class="agents-grid">
+    {% for agent in agents %}
+    <div class="agent-card">
+        <div class="agent-header">
+            <h3>{{ agent.name }}</h3>
+            <span class="badge badge-{{ agent.provider }}">{{ agent.provider|upper }}</span>
+        </div>
+
+        <div class="agent-info">
+            <div class="info-row">
+                <span class="label">Sprache:</span>
+                <span class="value">
+                    {% if agent.primary_language == 'de' %}Deutsch
+                    {% elif agent.primary_language == 'bs' %}Bosnisch
+                    {% elif agent.primary_language == 'sr' %}Serbisch
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="label">TTS:</span>
+                <span class="value">{{ agent.tts_provider }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">LLM:</span>
+                <span class="value">{{ agent.llm_model }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Telefon:</span>
+                <span class="value">{{ agent.phone_number or '-' }}</span>
+            </div>
+        </div>
+
+        <div class="agent-stats">
+            <div class="stat">
+                <span class="stat-num">{{ agent.call_sessions.count() }}</span>
+                <span class="stat-label">Anrufe</span>
+            </div>
+            <div class="stat">
+                <span class="stat-num">
+                    {{ agent.call_sessions.filter_by(sentiment='positive').count() }}
+                </span>
+                <span class="stat-label">Positiv</span>
+            </div>
+        </div>
+
+        <div class="agent-actions">
+            <a href="{{ url_for('voice_ai.agent_detail', id=agent.id) }}" class="btn">Details</a>
+            <a href="{{ url_for('voice_ai.agent_edit', id=agent.id) }}" class="btn btn-secondary">Bearbeiten</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state-container">
+    <h2>Noch keine Agents erstellt</h2>
+    <p>Erstelle deinen ersten Voice AI Sales Agent.</p>
+    <a href="{{ url_for('voice_ai.agent_create') }}" class="btn btn-primary btn-lg">Agent erstellen</a>
+</div>
+{% endif %}
+
+<style>
+.agents-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+.agent-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+.agent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+.agent-header h3 {
+    margin: 0;
+}
+.agent-info {
+    margin-bottom: 1rem;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+}
+.info-row .label {
+    color: #666;
+}
+.agent-stats {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1rem;
+}
+.stat {
+    text-align: center;
+}
+.stat-num {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.stat-label {
+    font-size: 0.85rem;
+    color: #666;
+}
+.agent-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+.agent-actions .btn {
+    flex: 1;
+}
+.empty-state-container {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+}
+.badge-vapi { background: #4F46E5; color: white; }
+.badge-retell { background: #059669; color: white; }
+.badge-bland { background: #DC2626; color: white; }
+</style>
+{% endblock %}

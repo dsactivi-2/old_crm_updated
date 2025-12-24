@@ -15,9 +15,16 @@ def create_app(config_class=Config):
     db.init_app(app)
 
     with app.app_context():
+        # Import Voice AI models to register them
+        from voice_ai_models import VoiceAgent, CallSession, CallQueue, LeadScore
         db.create_all()
 
     register_routes(app)
+
+    # Register Voice AI routes
+    from voice_ai_routes import register_voice_ai
+    register_voice_ai(app)
+
     return app
 
 
