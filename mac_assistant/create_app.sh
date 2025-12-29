@@ -52,8 +52,9 @@ RESOURCES_DIR="$DIR/../Resources"
 # Add to Python path
 export PYTHONPATH="$RESOURCES_DIR:$PYTHONPATH"
 
-# Run the app with menu bar launcher
+# Activate venv and run
 cd "$RESOURCES_DIR/mac_assistant"
+source venv/bin/activate
 python3 launcher_menubar.py
 EOF
 

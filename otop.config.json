@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "repo": { "name": "old_crm_updated", "type": "backend" },
+  "backend": {
+    "framework": "flask",
+    "openapi": { "file": "", "format": "" },
+    "health_hints_sample": 
+  },
+  "frontend": {
+    "framework": "",
+    "api_config_hints_sample": ,
+    "ui_ids": { "data_testid": "LOW", "data_otop_id": "LOW" }
+  }
+}

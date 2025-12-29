@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get the app directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RESOURCES_DIR="$DIR/../Resources"
+
+# Add to Python path
+export PYTHONPATH="$RESOURCES_DIR:$PYTHONPATH"
+
+# Activate venv and run
+cd "$RESOURCES_DIR/mac_assistant"
+source venv/bin/activate
+python3 launcher_menubar.py
