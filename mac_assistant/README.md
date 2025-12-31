@@ -9,21 +9,25 @@ Ein intelligenter Mac-Assistent, der dir hilft, deinen Mac zu automatisieren. Mi
 ## 🎯 Hauptfunktionen
 
 ### ✅ **Erweiterbar & Modular**
+
 - **Plugin-System** - Einfaches Hinzufügen neuer App-Integrationen
 - Unterstützt bereits: Mail, Slack, Viber, Telegram, Photos
 - **Eigene Plugins erstellen** in wenigen Minuten ([Anleitung](HOW_TO_ADD_PLUGINS.md))
 
 ### 🤖 **KI-gestützte Automatisierung**
+
 - Natürliche Sprache (Deutsch & Englisch)
 - **Task Execution** - Führt Aufgaben automatisch aus
 - **Multi-Step Tasks** - Komplexe Aufgaben mit mehreren Schritten
 
 ### ⏰ **Zeitreise-Funktion**
+
 - Verfolgt alle Aktivitäten
 - "Was habe ich vor 3 Tagen um 14 Uhr gemacht?"
 - Durchsuchbare Aktivitätshistorie
 
 ### 📱 **Multi-App-Integration**
+
 - E-Mails (Mail.app)
 - Messaging (Slack, Viber, Telegram, Messages)
 - Fotos (Photos.app)
@@ -122,14 +126,14 @@ result = core.execute_multi_step_task("""
 
 ### Verfügbare Plugins
 
-| Plugin | Typ | Funktionen |
-|--------|-----|-----------|
-| Mail | Email | Lesen, Senden, Suchen |
-| Slack | Messaging | Nachrichten, Channels, Status |
-| Viber | Messaging | Nachrichten, Suchen |
-| Telegram | Messaging | Nachrichten, Suchen |
-| Photos | Media | Suchen, Löschen, Alben |
-| **Deine eigenen!** | ... | ... |
+| Plugin             | Typ       | Funktionen                    |
+| ------------------ | --------- | ----------------------------- |
+| Mail               | Email     | Lesen, Senden, Suchen         |
+| Slack              | Messaging | Nachrichten, Channels, Status |
+| Viber              | Messaging | Nachrichten, Suchen           |
+| Telegram           | Messaging | Nachrichten, Suchen           |
+| Photos             | Media     | Suchen, Löschen, Alben        |
+| **Deine eigenen!** | ...       | ...                           |
 
 ---
 
@@ -321,15 +325,19 @@ echo 'export ANTHROPIC_API_KEY="sk-ant-your-key-here"' >> ~/.zshrc
 ## 🐛 Fehlerbehebung
 
 ### "Plugin nicht verfügbar"
+
 → App in `/Applications/` installieren
 
 ### "AppleScript-Fehler"
+
 → Berechtigungen in Systemeinstellungen prüfen
 
 ### "ANTHROPIC_API_KEY nicht gesetzt"
+
 → `export ANTHROPIC_API_KEY='...'`
 
 ### GUI startet nicht
+
 → `python3 -m tkinter` zum Testen
 
 ---

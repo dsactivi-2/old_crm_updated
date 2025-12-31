@@ -34,5 +34,6 @@ python app.py
 ## Configuration
 
 Set environment variables:
+
 - `SECRET_KEY` - Flask secret key
 - `DATABASE_URL` - Database connection string (default: SQLite)

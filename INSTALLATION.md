@@ -3,18 +3,21 @@
 ## Schnellstart
 
 ### 1. ZIP entpacken
+
 ```bash
 unzip mac_assistant_v2.0.zip
 cd mac_assistant
 ```
 
 ### 2. Setup ausführen
+
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
 ### 3. API Key setzen
+
 ```bash
 export ANTHROPIC_API_KEY='sk-ant-dein-api-key-hier'
 
@@ -23,6 +26,7 @@ echo 'export ANTHROPIC_API_KEY="sk-ant-your-key-here"' >> ~/.zshrc
 ```
 
 ### 4. App starten
+
 ```bash
 source venv/bin/activate
 python3 main.py
@@ -45,11 +49,13 @@ python3 main.py
 ## Erste Schritte
 
 ### GUI starten:
+
 ```bash
 python3 main.py
 ```
 
 ### Beispiel-Abfragen:
+
 ```
 "Was habe ich gestern gemacht?"
 "Sende E-Mail an max@example.com"
@@ -86,6 +92,7 @@ cp PLUGIN_TEMPLATE.py meine_app_plugin.py
 ## Support
 
 Bei Problemen:
+
 1. Berechtigungen prüfen (siehe oben)
 2. API Key prüfen: `echo $ANTHROPIC_API_KEY`
 3. Python Version prüfen: `python3 --version`

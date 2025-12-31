@@ -4,6 +4,7 @@
 ## Übersicht
 
 Der Assistant ist jetzt **vollständig autonom** und **proaktiv**:
+
 - 🧠 Lernt deine Gewohnheiten
 - 🔔 Macht von selbst Vorschläge
 - 📊 Analysiert automatisch Daten
@@ -19,32 +20,40 @@ Der Assistant ist jetzt **vollständig autonom** und **proaktiv**:
 
 #### ✅ **E-Mail-Überwachung** (alle 15 Min)
 ```
+
 → Prüft ungelesene E-Mails
 → Kategorisiert (wichtig/spam/newsletter)
 → Benachrichtigt bei wichtigen Mails
+
 ```
 
 #### ✅ **Pattern-Analyse** (jede Stunde)
 ```
+
 → Erkennt deine Arbeitszeiten
 → Findet optimale Zeiten für Tasks
 → Meldet ungewöhnliche Aktivitäten
+
 ```
 
 #### ✅ **Foto-Aufräumen** (täglich)
 ```
+
 → Findet Duplikate
 → Schlägt alte Screenshots vor
 → Automatische Organisation
+
 ```
 
 #### ✅ **Tages-Zusammenfassung** (18:00 Uhr)
 ```
+
 → E-Mails: X gesendet, Y empfangen
 → Nachrichten: Z gesendet
 → Produktivste Zeit: 14-16 Uhr
 → Top-Apps: Mail, Slack, Photos
-```
+
+````
 
 ---
 
@@ -58,15 +67,17 @@ Score = Basis (50)
         + Aktivitäten (max +30)
         + Tasks erledigt (je +2)
         = 0-100 Punkte
-```
+````
 
 #### 🎯 **Muster-Erkennung**
+
 - ⏰ Bevorzugte Zeiten für E-Mails
 - 👥 Häufigste Kontakte
 - 📱 App-Nutzungsmuster
 - 🕐 Arbeitszeiten-Analyse
 
 #### 💡 **Proaktive Vorschläge**
+
 ```
 09:00-11:00 → "Gute Zeit für E-Mails"
 14:00-16:00 → "Zeit für kreative Arbeit"
@@ -92,6 +103,7 @@ Freitag     → "Foto-Aufräumen?"
 ```
 
 ### Live-Updates:
+
 - Neue E-Mails erkannt
 - Nachrichten eingegangen
 - System-Status geändert
@@ -104,6 +116,7 @@ Freitag     → "Foto-Aufräumen?"
 ### Mit dem Assistant reden!
 
 #### Aktivieren:
+
 ```python
 "Hey Assistent"  # Wake word
 → "Ja, ich höre zu"
@@ -112,6 +125,7 @@ Freitag     → "Foto-Aufräumen?"
 ```
 
 #### Beispiele:
+
 ```
 🎤 "Was habe ich heute gemacht?"
 🤖 "Du hast 5 E-Mails gesendet..."
@@ -124,6 +138,7 @@ Freitag     → "Foto-Aufräumen?"
 ```
 
 #### Stimmen (macOS):
+
 - **Anna** (Deutsch, weiblich) - Standard
 - **Markus** (Deutsch, männlich)
 - Weitere via System
@@ -147,12 +162,14 @@ Befehlsmodus:
 ```
 
 #### Syntax:
+
 ```
 "Ich befehle dir: [AKTION]"
 "Befehl: [AKTION]"
 ```
 
 #### Beispiele:
+
 ```
 "Ich befehle dir: Lösche alle Screenshots"
 "Befehl: Sende Slack-Nachricht an Team"
@@ -168,29 +185,35 @@ Befehlsmodus:
 ### 3 AI-Provider:
 
 #### 1️⃣ **Claude** (Anthropic) - Default
+
 ```bash
 export ANTHROPIC_API_KEY='sk-ant-...'
 ```
+
 - Modell: claude-sonnet-4-5
 - Beste Reasoning-Fähigkeiten
 - Lange Kontexte
 
 #### 2️⃣ **ChatGPT** (OpenAI)
+
 ```bash
 export OPENAI_API_KEY='sk-...'
 pip install openai
 ```
+
 - Modell: gpt-4-turbo
 - Vielseitig einsetzbar
 - Schnelle Antworten
 
 #### 3️⃣ **Grok** (xAI)
+
 ```bash
 export XAI_API_KEY='...'
 # or
 export GROK_API_KEY='...'
 pip install openai
 ```
+
 - Modell: grok-beta
 - Echtzeit-Daten (X/Twitter)
 - Humor & Persönlichkeit
@@ -217,6 +240,7 @@ results = ask_all("Was ist die Hauptstadt von Deutschland?")
 ```
 
 ### Provider wechseln:
+
 ```python
 ai.set_active_provider('chatgpt')  # Jetzt ist GPT aktiv
 ai.set_active_provider('grok')     # Jetzt ist Grok aktiv
@@ -228,6 +252,7 @@ ai.set_active_provider('claude')   # Zurück zu Claude
 ## 📈 Analytics-Berichte
 
 ### Täglich:
+
 ```
 📊 Deine Tages-Zusammenfassung:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -241,6 +266,7 @@ ai.set_active_provider('claude')   # Zurück zu Claude
 ```
 
 ### Wöchentlich:
+
 ```
 📊 Wochen-Report:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -267,16 +293,19 @@ ai.set_active_provider('claude')   # Zurück zu Claude
 ### Was der Agent automatisch erledigt:
 
 #### 🗂️ **Organisation**
+
 - Fotos nach Datum sortieren
 - E-Mails kategorisieren
 - Alte Nachrichten archivieren
 
 #### 🧹 **Cleanup**
+
 - Duplikate finden
 - Screenshots aufräumen
 - Temporäre Dateien löschen
 
 #### 📊 **Berichte**
+
 - Tägliche Zusammenfassung
 - Wöchentlicher Report
 - Produktivitäts-Tracking
@@ -302,6 +331,7 @@ ai.set_active_provider('claude')   # Zurück zu Claude
 ### Was der Agent lernt:
 
 #### ⏰ **Zeitliche Muster**
+
 ```
 Montag 09:00  → E-Mails checken
 Montag 14:00  → Meetings
@@ -309,6 +339,7 @@ Freitag 16:00 → Wochenabschluss
 ```
 
 #### 👥 **Soziale Muster**
+
 ```
 Häufigste Kontakte → Priorisieren
 Wichtige Absender  → Hervorheben
@@ -316,6 +347,7 @@ Team-Kommunikation → Zusammenfassen
 ```
 
 #### 📱 **App-Nutzung**
+
 ```
 Morgens   → Mail, Slack
 Mittags   → Messages
@@ -387,6 +419,7 @@ result = core.ai_multi.query("Hallo", provider='grok')
 ## 💡 Beispiel-Szenarien
 
 ### Szenario 1: Morgen-Routine
+
 ```
 08:00 → Agent startet
 08:05 → Prüft E-Mails
@@ -397,6 +430,7 @@ result = core.ai_multi.query("Hallo", provider='grok')
 ```
 
 ### Szenario 2: Proaktive Hilfe
+
 ```
 14:00 → Viele Aktivitäten erkannt
 14:30 → "Du bist sehr produktiv!"
@@ -405,6 +439,7 @@ result = core.ai_multi.query("Hallo", provider='grok')
 ```
 
 ### Szenario 3: Abend-Cleanup
+
 ```
 18:00 → Tages-Zusammenfassung erstellen
 18:05 → Foto-Duplikate gefunden
