@@ -3,6 +3,7 @@
 ## Übersicht
 
 Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anwendung:
+
 - ✅ **Kein Terminal mehr nötig**
 - ✅ **Alles per Mausklick steuerbar**
 - ✅ **Native macOS Look & Feel**
@@ -44,6 +45,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ## 🎯 Hauptbereiche
 
 ### 1️⃣ **Top Bar** (Oben)
+
 - 🤖 **App-Titel** - "Mac Remote Assistant"
 - 🟢 **API Status** - Zeigt ob KI aktiv ist
 - ⚙️ **Einstellungen** - API Key setzen, Preferences
@@ -51,12 +53,14 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ### 2️⃣ **Sidebar** (Links)
 
 #### 📱 Apps & Plugins
+
 - **Plugin-Liste** mit Status (✓/✗)
 - **Toggle-Schalter** - Plugins an/ausschalten
 - **Auto-Discovery** - Erkennt installierte Apps
 - **Live-Status** - Zeigt Verfügbarkeit
 
 #### ⚡ Schnellaktionen
+
 - 📧 **Neue E-Mails** - Sofort prüfen
 - 💬 **Neue Nachrichten** - Alle Messenger
 - 📸 **Fotos heute** - Heutige Fotos
@@ -66,6 +70,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ### 3️⃣ **Main Dashboard** (Mitte)
 
 #### 🤖 KI Command Input
+
 ```
 ┌─────────────────────────────────────────────┐
 │ 🤖 KI-Assistent - Was soll ich tun?       │
@@ -77,12 +82,14 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ```
 
 **Features:**
+
 - Natürliche Sprache (Deutsch/Englisch)
 - Enter-Taste zum Ausführen
 - Beispiele eingeblendet
 - Sofortige Verarbeitung
 
 #### 📊 Stats Cards (4 Karten)
+
 ```
 ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
 │ 📧 E-Mails│ │ 💬 Msg   │ │ 📸 Photos│ │ 🎯 Tasks │
@@ -92,12 +99,14 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ```
 
 **Live-Updates:**
+
 - E-Mails: Ungelesene Anzahl
 - Nachrichten: Neue Messages
 - Fotos: Heute aufgenommen
 - Tasks: Heute ausgeführt
 
 #### 📑 Tabbed Content
+
 ```
 [📋 Ergebnisse] [📧 E-Mails] [💬 Nachrichten] [📸 Fotos] [🎯 Tasks]
 ┌──────────────────────────────────────────────┐
@@ -110,6 +119,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ```
 
 **Tab-Funktionen:**
+
 - **Ergebnisse**: KI-Antworten, Befehlsergebnisse
 - **E-Mails**: Inbox, Senden, Antworten
 - **Nachrichten**: Alle Messenger vereint
@@ -137,12 +147,14 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ```
 
 **Features:**
+
 - Echtzeit-Updates
 - Alle Aktivitäten
 - Zeitstempel
 - Refresh-Button
 
 ### 5️⃣ **Status Bar** (Unten)
+
 ```
 ┌─────────────────────────────────────────────┐
 │ ● Bereit                🔌 5 Plugins aktiv  │
@@ -150,6 +162,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ```
 
 **Zeigt:**
+
 - Aktueller Status (Bereit, Verarbeite, Fehler)
 - Plugin-Anzahl
 - Letzte Aktion
@@ -159,6 +172,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 ## 🎨 Design-Prinzipien
 
 ### macOS-Native Look
+
 - ✅ SF Pro Display/Text Fonts
 - ✅ macOS-Farbschema
 - ✅ Flache Buttons
@@ -166,6 +180,7 @@ Das neue **Dashboard Interface** macht die App zu einer echten nativen macOS-Anw
 - ✅ Hover-Effekte
 
 ### Farbpalette
+
 ```
 Background:  #f5f5f7  (macOS Hellgrau)
 Cards:       #ffffff  (Weiß)
@@ -183,6 +198,7 @@ Text:        #1d1d1f  (Fast Schwarz)
 ### Alle Aktionen per Maus:
 
 #### ⚙️ Einstellungen öffnen
+
 ```
 Klick auf "⚙️ Einstellungen" (oben rechts)
 → Dialog öffnet sich
@@ -191,6 +207,7 @@ Klick auf "⚙️ Einstellungen" (oben rechts)
 ```
 
 #### 🔌 Plugin an/ausschalten
+
 ```
 Sidebar → Plugin finden
 → Toggle-Schalter klicken
@@ -198,6 +215,7 @@ Sidebar → Plugin finden
 ```
 
 #### 📧 E-Mails prüfen
+
 ```
 Sidebar → "📧 Neue E-Mails" klicken
 → Automatisch geladen
@@ -205,6 +223,7 @@ Sidebar → "📧 Neue E-Mails" klicken
 ```
 
 #### 🤖 KI-Befehl ausführen
+
 ```
 Input-Feld klicken
 → Befehl eintippen
@@ -213,6 +232,7 @@ Input-Feld klicken
 ```
 
 #### ⏰ Zeitreise nutzen
+
 ```
 Sidebar → "⏰ Was tat ich vor..." klicken
 → Dialog öffnet sich
@@ -226,6 +246,7 @@ Sidebar → "⏰ Was tat ich vor..." klicken
 ## 💡 Beispiel-Workflows
 
 ### Workflow 1: E-Mail senden
+
 ```
 1. Input-Feld klicken
 2. Eingeben: "Sende E-Mail an max@example.com"
@@ -236,6 +257,7 @@ Sidebar → "⏰ Was tat ich vor..." klicken
 ```
 
 ### Workflow 2: Fotos suchen & löschen
+
 ```
 1. Sidebar → "📸 Fotos heute"
 2. Fotos werden geladen
@@ -247,6 +269,7 @@ Sidebar → "⏰ Was tat ich vor..." klicken
 ```
 
 ### Workflow 3: Multi-App-Suche
+
 ```
 1. Sidebar → "🔍 Überall suchen"
 2. Dialog öffnet sich
@@ -257,6 +280,7 @@ Sidebar → "⏰ Was tat ich vor..." klicken
 ```
 
 ### Workflow 4: Task ausführen
+
 ```
 1. Input: "Sende Slack an #team: Meeting um 3"
 2. Enter
@@ -290,6 +314,7 @@ sudo cp -r "Mac Remote Assistant.app" /Applications/
 **Doppelklick** auf Icon im Finder!
 
 **Oder:**
+
 ```bash
 open "/Applications/Mac Remote Assistant.app"
 ```
@@ -299,17 +324,20 @@ open "/Applications/Mac Remote Assistant.app"
 ## 🎯 Shortcuts & Tipps
 
 ### Tastatur-Shortcuts:
+
 - `Cmd+,` - Einstellungen (geplant)
 - `Cmd+R` - Refresh (geplant)
 - `Cmd+Q` - Beenden
 - `Enter` - Befehl ausführen
 
 ### Maus-Shortcuts:
+
 - **Hover** über Buttons → Farbwechsel
 - **Doppelklick** auf Stats → Details
 - **Rechtsklick** → Kontext-Menü (geplant)
 
 ### Pro-Tipps:
+
 - 💡 API Key in Einstellungen setzen (kein Terminal!)
 - 💡 Plugins einzeln testen über Toggle
 - 💡 Schnellaktionen für häufige Tasks
@@ -321,6 +349,7 @@ open "/Applications/Mac Remote Assistant.app"
 ## 📱 Alles ohne Terminal!
 
 **Vor Dashboard:**
+
 ```bash
 $ cd mac_assistant
 $ source venv/bin/activate
@@ -329,6 +358,7 @@ $ python3 main.py
 ```
 
 **Mit Dashboard:**
+
 ```
 1. Doppelklick auf App
 2. API Key in Einstellungen eingeben

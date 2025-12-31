@@ -48,15 +48,16 @@ print(agent.get_stats())
 
 ## Provider-Vergleich
 
-| Feature | Vapi.ai | Retell.ai | Bland.ai |
-|---------|---------|-----------|----------|
-| Latenz | ~500-800ms | ~300-500ms | ~600-900ms |
-| Deutsch | Sehr gut | Sehr gut | Gut |
-| Bosnisch/Serbisch | Via Azure | Via Azure | Begrenzt |
-| Preis/Minute | ~$0.05 | ~$0.07 | ~$0.09 |
-| Setup | Mittel | Einfach | Einfach |
+| Feature           | Vapi.ai    | Retell.ai  | Bland.ai   |
+| ----------------- | ---------- | ---------- | ---------- |
+| Latenz            | ~500-800ms | ~300-500ms | ~600-900ms |
+| Deutsch           | Sehr gut   | Sehr gut   | Gut        |
+| Bosnisch/Serbisch | Via Azure  | Via Azure  | Begrenzt   |
+| Preis/Minute      | ~$0.05     | ~$0.07     | ~$0.09     |
+| Setup             | Mittel     | Einfach    | Einfach    |
 
 **Empfehlung:**
+
 - Beste Latenz: **Retell.ai**
 - Beste Flexibilität: **Vapi.ai**
 - Sales-fokussiert: **Bland.ai**
@@ -66,22 +67,27 @@ print(agent.get_stats())
 ## API-Keys beschaffen
 
 ### Vapi.ai
+
 1. https://vapi.ai registrieren
 2. Dashboard → API Keys → Create Key
 
 ### Retell.ai
+
 1. https://retell.ai registrieren
 2. Settings → API Keys
 
 ### Bland.ai
+
 1. https://bland.ai registrieren
 2. Account → API Key
 
 ### ElevenLabs (für beste deutsche Stimmen)
+
 1. https://elevenlabs.io registrieren
 2. Profile → API Key
 
 ### Twilio (für Telefonie)
+
 1. https://twilio.com registrieren
 2. Account SID + Auth Token kopieren
 3. Telefonnummer kaufen
@@ -130,6 +136,7 @@ Emir Kovačević,+38761123456,emir@example.ba,Firma d.o.o.,bs,2
 ```
 
 **Spalten:**
+
 - `name` (Pflicht): Kundenname
 - `phone` (Pflicht): Telefonnummer mit Ländervorwahl
 - `email`: E-Mail-Adresse
@@ -142,6 +149,7 @@ Emir Kovačević,+38761123456,emir@example.ba,Firma d.o.o.,bs,2
 ## API-Endpunkte (CRM-Integration)
 
 ### Agents
+
 ```
 GET  /api/voice/agents          - Liste aller Agents
 POST /api/voice/agents          - Agent erstellen
@@ -149,6 +157,7 @@ GET  /api/voice/agents/{id}     - Agent-Details
 ```
 
 ### Calls
+
 ```
 POST /api/voice/calls/start     - Anruf starten
 GET  /api/voice/calls           - Anruf-Liste
@@ -156,12 +165,14 @@ GET  /api/voice/calls/{id}      - Anruf-Details
 ```
 
 ### Queue
+
 ```
 GET  /api/voice/queue           - Queue abrufen
 POST /api/voice/queue           - Zur Queue hinzufügen
 ```
 
 ### Webhooks (für Provider)
+
 ```
 POST /api/voice/webhooks/vapi   - Vapi.ai Webhook
 POST /api/voice/webhooks/retell - Retell.ai Webhook
@@ -173,30 +184,34 @@ POST /api/voice/webhooks/bland  - Bland.ai Webhook
 ## Stimmen-Empfehlungen
 
 ### Deutsch
-| Provider | Voice ID | Name | Geschlecht |
-|----------|----------|------|------------|
-| ElevenLabs | pNInz6obpgDQGcFmaJgB | Adam | Männlich |
-| ElevenLabs | 21m00Tcm4TlvDq8ikWAM | Rachel | Weiblich |
-| Azure | de-DE-ConradNeural | Conrad | Männlich |
-| Azure | de-DE-KatjaNeural | Katja | Weiblich |
+
+| Provider   | Voice ID             | Name   | Geschlecht |
+| ---------- | -------------------- | ------ | ---------- |
+| ElevenLabs | pNInz6obpgDQGcFmaJgB | Adam   | Männlich   |
+| ElevenLabs | 21m00Tcm4TlvDq8ikWAM | Rachel | Weiblich   |
+| Azure      | de-DE-ConradNeural   | Conrad | Männlich   |
+| Azure      | de-DE-KatjaNeural    | Katja  | Weiblich   |
 
 ### Bosnisch
-| Provider | Voice ID | Name | Geschlecht |
-|----------|----------|------|------------|
-| Azure | bs-BA-VesnaNeural | Vesna | Weiblich |
-| Azure | bs-BA-GoranNeural | Goran | Männlich |
+
+| Provider | Voice ID          | Name  | Geschlecht |
+| -------- | ----------------- | ----- | ---------- |
+| Azure    | bs-BA-VesnaNeural | Vesna | Weiblich   |
+| Azure    | bs-BA-GoranNeural | Goran | Männlich   |
 
 ### Serbisch
-| Provider | Voice ID | Name | Geschlecht |
-|----------|----------|------|------------|
-| Azure | sr-RS-SophieNeural | Sophie | Weiblich |
-| Azure | sr-RS-NicholasNeural | Nicholas | Männlich |
+
+| Provider | Voice ID             | Name     | Geschlecht |
+| -------- | -------------------- | -------- | ---------- |
+| Azure    | sr-RS-SophieNeural   | Sophie   | Weiblich   |
+| Azure    | sr-RS-NicholasNeural | Nicholas | Männlich   |
 
 ---
 
 ## Tipps für menschlich klingende Agents
 
 ### Im System-Prompt:
+
 ```
 WICHTIG - Klinge menschlich:
 - Nutze Füllwörter: "also", "ähm", "ja genau", "wissen Sie was"
@@ -212,6 +227,7 @@ VERMEIDE:
 ```
 
 ### Technische Einstellungen:
+
 - **Backchannel aktivieren:** Agent sagt "Mhm", "Ja" während Kunde spricht
 - **Background Sound:** Büro-Ambiente für Authentizität
 - **Interruption Sensitivity:** Hoch (Agent reagiert auf Unterbrechungen)
@@ -221,13 +237,13 @@ VERMEIDE:
 
 ## Kosten-Kalkulation
 
-| Komponente | Kosten/Minute |
-|------------|---------------|
-| Vapi.ai | ~$0.05 |
-| ElevenLabs TTS | ~$0.01 |
-| OpenAI GPT-4o-mini | ~$0.002 |
-| Twilio | ~$0.014 |
-| **Gesamt** | **~$0.08/Min** |
+| Komponente         | Kosten/Minute  |
+| ------------------ | -------------- |
+| Vapi.ai            | ~$0.05         |
+| ElevenLabs TTS     | ~$0.01         |
+| OpenAI GPT-4o-mini | ~$0.002        |
+| Twilio             | ~$0.014        |
+| **Gesamt**         | **~$0.08/Min** |
 
 **Pro 3-Minuten-Call:** ~$0.25
 **100 Calls/Tag:** ~$25
@@ -237,19 +253,23 @@ VERMEIDE:
 ## Fehlerbehebung
 
 ### "No phone number"
+
 - Kontakt hat keine Telefonnummer
 - CSV-Spalte prüfen (phone, telefon, tel)
 
 ### "Invalid API key"
+
 - API-Key prüfen
 - Provider-Dashboard checken
 
 ### "Call failed"
+
 - Telefonnummer-Format prüfen (+49...)
 - Twilio-Guthaben prüfen
 - Webhook-URL erreichbar?
 
 ### Schlechte Sprachqualität
+
 - ElevenLabs statt Azure für Deutsch
 - Voice ID prüfen
 - Niedrigere Geschwindigkeit testen
@@ -259,5 +279,6 @@ VERMEIDE:
 ## Support
 
 Bei Fragen oder Problemen:
+
 - GitHub Issues: [Repository]
 - Dokumentation: Siehe `standalone_voice_ai/examples.py`

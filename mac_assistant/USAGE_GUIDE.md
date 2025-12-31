@@ -13,9 +13,11 @@ open "/Applications/Mac Remote Assistant.app"
 Die App öffnet automatisch ein Dashboard mit 5 Tabs:
 
 #### Tab 1: 🤖 Assistent (Chat)
+
 Hier gibst du deine Befehle ein:
 
 **Beispiele:**
+
 ```
 - "Zeige meine ungelesenen E-Mails"
 - "Liste alle Sender mit ungelesenen Mails auf"
@@ -25,24 +27,31 @@ Hier gibst du deine Befehle ein:
 ```
 
 #### Tab 2: 📊 Aktivitäten
+
 Zeigt deine täglichen Computer-Aktivitäten:
+
 - Welche Apps du verwendet hast
 - Zeiterfassung
 - Zeitreise-Funktion ("Was habe ich am X gemacht?")
 
 #### Tab 3: ✉️ E-Mails
+
 Direkter Zugriff auf Mail.app:
+
 - Ungelesene Mails anzeigen
 - Nach Sender gruppiert
 - Summe der ungelesenen Mails
 
 #### Tab 4: 📸 Fotos
+
 Integration mit Photos.app:
+
 - Fotos durchsuchen
 - Nach Datum filtern
 - Medien verwalten
 
 #### Tab 5: ⚙️ Einstellungen
+
 - API Keys verwalten
 - Plugins aktivieren/deaktivieren
 - System-Status
@@ -52,10 +61,12 @@ Integration mit Photos.app:
 ### 2. Spracheingabe (In Entwicklung)
 
 **Aktueller Status:**
+
 - ✅ Text-to-Speech funktioniert (App kann sprechen)
 - ❌ Speech-to-Text noch nicht implementiert (App kann noch nicht zuhören)
 
 **Geplante Funktionen:**
+
 ```
 - Wake-Word: "Hey Assistent"
 - Kontinuierliches Zuhören
@@ -89,6 +100,7 @@ print(task)
 ## 🔧 Verfügbare Befehle
 
 ### E-Mail-Befehle
+
 ```
 - "Zeige ungelesene E-Mails"
 - "Liste alle Sender mit ungelesenen Mails"
@@ -97,6 +109,7 @@ print(task)
 ```
 
 ### Aktivitäts-Befehle
+
 ```
 - "Was habe ich heute gemacht?"
 - "Zeige meine Aktivitäten vom [Datum]"
@@ -104,6 +117,7 @@ print(task)
 ```
 
 ### Foto-Befehle
+
 ```
 - "Zeige Fotos vom [Datum]"
 - "Suche Fotos mit [Tag]"
@@ -111,6 +125,7 @@ print(task)
 ```
 
 ### Messaging-Befehle (wenn Plugins aktiviert)
+
 ```
 - "Sende Nachricht an [Name] über Slack: [Text]"
 - "Zeige Telegram Nachrichten"
@@ -138,12 +153,14 @@ print(task)
 ## ⚙️ Berechtigungen erteilen
 
 ### Bedienungshilfen:
+
 ```
 Systemeinstellungen → Datenschutz & Sicherheit → Bedienungshilfen
 → Mac Remote Assistant aktivieren
 ```
 
 ### Automation:
+
 ```
 Systemeinstellungen → Datenschutz & Sicherheit → Automation
 → Mac Remote Assistant erlauben für:
@@ -157,6 +174,7 @@ Systemeinstellungen → Datenschutz & Sicherheit → Automation
 ## 🆘 Problemlösung
 
 ### App startet nicht?
+
 ```bash
 # App-Signatur entfernen
 xattr -cr "/Applications/Mac Remote Assistant.app"
@@ -166,6 +184,7 @@ open "/Applications/Mac Remote Assistant.app"
 ```
 
 ### "API Key nicht gefunden"?
+
 ```bash
 # In Einstellungen-Tab API Key eingeben oder:
 echo 'export ANTHROPIC_API_KEY="sk-ant-..."' >> ~/.zshrc
@@ -173,6 +192,7 @@ source ~/.zshrc
 ```
 
 ### Import-Fehler?
+
 ```bash
 # App wurde bereits mit korrigierten Imports neu gebaut
 # Falls Probleme: App neu installieren
@@ -186,17 +206,20 @@ cp -r "Mac Remote Assistant.app" /Applications/
 ## 📝 Nächste Schritte / Feature-Roadmap
 
 ### Priorität 1: Spracheingabe aktivieren
+
 - [ ] macOS Dictation API integrieren
 - [ ] Wake-Word Erkennung
 - [ ] Kontinuierliches Zuhören
 
 ### Priorität 2: Weitere Plugins
+
 - [ ] Calendar Integration
 - [ ] Reminders/Notes
 - [ ] Browser-Steuerung
 - [ ] File-Manager-Integration
 
 ### Priorität 3: Autonome Features
+
 - [ ] Proaktive Benachrichtigungen
 - [ ] Automatische Aufgaben-Erkennung
 - [ ] Smart Suggestions

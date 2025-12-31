@@ -5,28 +5,33 @@ Ein intelligenter KI-Assistent für macOS, der dir hilft, deinen Mac zu verwalte
 ## 🎯 Was kann die App?
 
 ### 1. **E-Mail Management**
+
 - Ungelesene E-Mails anzeigen
 - Mit KI automatisch E-Mails beantworten
 - E-Mails durchsuchen und filtern
 - E-Mails kategorisieren (wichtig, spam, etc.)
 
 ### 2. **Nachrichten Management**
+
 - Nachrichten aus Messages.app lesen
 - Nachrichten senden
 - Mit KI automatisch auf Nachrichten antworten
 
 ### 3. **Foto Management**
+
 - Fotos durchsuchen
 - Fotos nach Datum filtern
 - KI-gestützte Foto-Analyse (Duplikate finden, etc.)
 - Fotos löschen
 
 ### 4. **Aktivitätsverfolgung ("Zeitreise")**
+
 - Verfolgt alle deine Aktivitäten
 - Zeigt, was du vor X Tagen gemacht hast
 - **Beispiel:** "Was habe ich vor 3 Tagen um 14 Uhr gemacht?"
 
 ### 5. **KI-Assistent**
+
 - Natürliche Sprache (Deutsch)
 - Intelligente Automatisierung
 - Kontextbezogene Antworten
@@ -34,6 +39,7 @@ Ein intelligenter KI-Assistent für macOS, der dir hilft, deinen Mac zu verwalte
 ## 🚀 Installation
 
 ### Voraussetzungen
+
 - **macOS** (10.14 oder neuer)
 - **Python 3.8+**
 - **Anthropic API Key** ([hier registrieren](https://www.anthropic.com))
@@ -99,6 +105,7 @@ python3 main.py
 Die App hat ein benutzerfreundliches GUI mit mehreren Tabs:
 
 #### 1. **Assistent-Tab**
+
 Stelle Fragen in natürlicher Sprache:
 
 ```
@@ -109,22 +116,26 @@ Stelle Fragen in natürlicher Sprache:
 ```
 
 #### 2. **Aktivitäten-Tab**
+
 - Wähle ein Datum (vor X Tagen)
 - Optional: Wähle eine bestimmte Uhrzeit
 - Sieh alle Aktivitäten aus dieser Zeit
 
 #### 3. **E-Mails-Tab**
+
 - Ungelesene E-Mails laden
 - E-Mails mit KI beantworten
 - E-Mails durchsuchen
 
 #### 4. **Fotos-Tab**
+
 - Fotos suchen
 - Letzte 7/30 Tage anzeigen
 - Fotos löschen
 - KI-Analyse für Löschvorschläge
 
 #### 5. **Einstellungen-Tab**
+
 - API Key verwalten
 - Aktivitätsverfolgung ein/aus
 - Automatische Antworten ein/aus
@@ -132,6 +143,7 @@ Stelle Fragen in natürlicher Sprache:
 ## 💡 Beispielabfragen
 
 ### Zeitreise-Funktion
+
 ```
 "Was habe ich gestern gemacht?"
 "Was habe ich vor 3 Tagen um 14 Uhr gemacht?"
@@ -139,6 +151,7 @@ Stelle Fragen in natürlicher Sprache:
 ```
 
 ### E-Mails
+
 ```
 "Zeige mir meine neuen E-Mails"
 "Habe ich E-Mails von Max?"
@@ -146,6 +159,7 @@ Stelle Fragen in natürlicher Sprache:
 ```
 
 ### Fotos
+
 ```
 "Zeige Fotos von dieser Woche"
 "Suche nach Fotos vom Strand"
@@ -153,6 +167,7 @@ Stelle Fragen in natürlicher Sprache:
 ```
 
 ### Nachrichten
+
 ```
 "Zeige meine letzten Nachrichten"
 "Schreibe eine Nachricht an Anna"
@@ -193,21 +208,26 @@ mac_assistant/
 ## 🐛 Fehlerbehebung
 
 ### "ANTHROPIC_API_KEY nicht gesetzt"
+
 ```bash
 export ANTHROPIC_API_KEY='dein-key-hier'
 ```
 
 ### "AppleScript-Fehler: Operation nicht erlaubt"
+
 → Überprüfe Berechtigungen in Systemeinstellungen → Sicherheit → Datenschutz
 
 ### "ModuleNotFoundError"
+
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ### GUI startet nicht
+
 Stelle sicher, dass Python auf macOS tkinter unterstützt:
+
 ```bash
 python3 -m tkinter
 ```
@@ -215,6 +235,7 @@ python3 -m tkinter
 ## 📊 Datenbank-Schema
 
 ### Activities Table
+
 - `timestamp` - Zeitstempel
 - `app_name` - App-Name
 - `activity_type` - Aktivitätstyp
@@ -223,12 +244,15 @@ python3 -m tkinter
 - `metadata` - JSON-Metadaten
 
 ### Mail Activities Table
+
 - E-Mail-spezifische Felder (sender, recipient, subject, body)
 
 ### WhatsApp Activities Table
+
 - Nachrichten-spezifische Felder (contact, message, chat_name)
 
 ### Photo Activities Table
+
 - Foto-spezifische Felder (file_path, file_name, tags, date_taken)
 
 ## 🤝 Mitwirken
@@ -246,6 +270,7 @@ Diese App ist ein Proof-of-Concept. Verwende sie verantwortungsvoll und beachte 
 ## 🙋 Support
 
 Bei Fragen oder Problemen:
+
 - Erstelle ein GitHub Issue
 - Überprüfe die Dokumentation
 - Überprüfe macOS-Berechtigungen
