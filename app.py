@@ -1,3 +1,7 @@
+import os
+import re
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SelectField
@@ -5,6 +9,69 @@ from wtforms.validators import DataRequired, Email, Length, Optional
 
 from config import Config
 from models import db, Customer, Interaction
+
+
+def scrub_sensitive_data(event, hint):
+    """Remove sensitive data before sending to Sentry."""
+    # Scrub request headers
+    if event.get("request", {}).get("headers"):
+        headers = event["request"]["headers"]
+        for sensitive in ["authorization", "cookie", "x-api-key"]:
+            if sensitive in headers:
+                del headers[sensitive]
+
+    # Scrub request data
+    if event.get("request", {}).get("data"):
+        data = event["request"]["data"]
+        if isinstance(data, dict):
+            sensitive_keys = ["password", "token", "api_key", "secret", "credit_card"]
+            for key in sensitive_keys:
+                if key in data:
+                    data[key] = "[REDACTED]"
+
+    # Scrub URL query params
+    if event.get("request", {}).get("query_string"):
+        qs = event["request"]["query_string"]
+        qs = re.sub(r"password=[^&]+", "password=[REDACTED]", qs)
+        qs = re.sub(r"token=[^&]+", "token=[REDACTED]", qs)
+        event["request"]["query_string"] = qs
+
+    return event
+
+
+# Initialize Sentry with full configuration
+if os.getenv("SENTRY_DSN"):
+    sentry_sdk.init(
+        dsn=os.getenv("SENTRY_DSN"),
+        environment=os.getenv("FLASK_ENV", "development"),
+        release=os.getenv("SENTRY_RELEASE", "0.1.0"),
+        # Integrations
+        integrations=[
+            FlaskIntegration(transaction_style="url"),
+        ],
+        # Performance Monitoring
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+        # Distributed Tracing
+        trace_propagation_targets=[
+            "localhost",
+            r"https://.*\.activi\.dev",
+            r"http://178\.156\.178\.70",
+            r"http://49\.13\.158\.176",
+        ],
+        # User data
+        send_default_pii=True,
+        # Logs
+        _experiments={"enable_logs": True},
+        # Data Scrubbing
+        before_send=scrub_sensitive_data,
+        # Ignore common errors
+        ignore_errors=[
+            ConnectionResetError,
+            ConnectionRefusedError,
+        ],
+    )
+    print("✅ Sentry initialized with full monitoring")
 
 
 def create_app(config_class=Config):
